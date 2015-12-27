@@ -1,0 +1,24 @@
+{% extends "iliasApp/base.html" %}
+
+{% block Title %}
+Transmutation Results
+{% endblock %}
+{% block content %}
+
+<h1>Transmutation Results</h1>
+
+    <form action="{% url "iliasApp:ViewTableDownload" %}" method="post" class="downloadForm">
+        {% csrf_token %}
+        <input type="hidden" name='fileName' value="{{ fileName }}">
+        <input type="hidden" name='content' value="{{ forDownload }}">
+        <input class="btn btn-danger" type="submit" value="Download Results !">
+    </form>
+
+
+    {% for header, sequence in zipped %}
+        <p class="sequenceResult">{{ header }}</p>
+        <p>{{ sequence|safe }}</p>
+    {% endfor %}
+
+
+{% endblock %}

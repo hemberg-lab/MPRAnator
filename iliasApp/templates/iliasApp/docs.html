@@ -1,0 +1,166 @@
+{% extends "iliasApp/base.html" %}
+
+{% block Title %}
+Documentation
+{% endblock %}
+
+{% block head %}
+    <style>
+.mainContainer{
+    font-family: sans-serif;
+
+    text-align: left;
+    }
+.docSections{
+    background-color: lightblue;
+    }
+.docSubSections{
+        text-decoration: underline;
+        font-weight: bold;
+    }
+.docSectionBlock{
+    border-style: solid;
+    border-width: 3px;
+    padding: 20px;
+    margin: 30px;
+    background-color: #fffee8;
+}
+
+    </style>
+
+
+{% endblock %}
+{% block content %}
+
+{#<h1>Documentation</h1>#}
+{% load staticfiles %}
+    <div class="row">
+    <div class="col-md-1"></div>
+        <div class="col-md-10 mainContainer">
+            <h3 class="docSections">MPRAs SNP query page</h3>
+
+            <p>This page allows the user to synthesize oligonucleotides for MPRA experiments to study the effects of SNPs. The user can select to include
+                or exclude combinations of SNPs when designing MPRA experiments.</p>
+
+            <h3 class="docSections">MPRAs SNP result page</h3>
+
+            <p>
+                The result page (plain text view) displays the synthesized oligonucleotides in FASTA format. The description line (header)
+                has information about the options chosen by the user during submission. A header is composed of one or more DESCRIPTORs and each DESCRIPTOR
+                is composed of a LABEL and INFO. The descriptors are delimited by a |, i.e. a "pipe".
+            </p>
+
+
+            <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+
+                <p style="text-align: center"><code> &gt;
+                {% for foo in "xxx" %}
+                {{ headerFormat }}
+                {% endfor %}
+                ...
+                </code></p>
+            </div>
+            <div class="col-md-2"></div>
+            </div>
+
+              <div class="docSectionBlock">
+            <p class="docSubSections"><code>LABEL</code> types:</p>
+            <ul>
+                {% for headerLabel in mpraSNPheaderLabels %}
+                    <li><code>{{ headerLabel.0.upper }}</code> : {{ headerLabel.1 }} </li>
+                {% endfor %}
+
+            </ul>
+            </div>
+
+
+            <h3 class="docSections">MPRAs query page</h3>
+            <p>This page allows the user to synthesize oligonucleotides for MPRAs. The user
+            is able to specify the locations to substitute the motifs, insert restriction sites
+            ,adapter sites and barcodes.</p>
+
+            <h3 style="background-color: lightblue">MPRAs result page</h3>
+            <p>The result page (plain text view) displays the synthesized
+                oligonucleotides in FASTA format. The description line (header)
+                has information about the
+                options chosen by the user during submission. A header is composed of
+            one or more <code>DESCRIPTOR</code>s and each <code>DESCRIPTOR</code> is composed of a <code>LABEL</code> and
+            <code>INFO</code>. The descriptors are delimited by a <code>|</code>, i.e. a "pipe".</p>
+
+            <p> The format
+                of the FASTA header for each sequence is shown below.
+                Note that the order of the <code>DESCRIPTOR</code> in the header is insignificant.
+
+            </p>
+            <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+
+                <p style="text-align: center"><code> &gt;
+                {% for foo in "xxx" %}
+                {{ headerFormat }}
+                {% endfor %}
+                ...
+                </code></p>
+            </div>
+            <div class="col-md-2"></div>
+            </div>
+            <p> The <code>LABEL</code> is one of the options as shown below and <code>INFO</code> is either
+                a number or a word which describes the <code>LABEL</code> in more detail.
+            </p>
+
+
+            <div class="docSectionBlock">
+            <p class="docSubSections"><code>LABEL</code> types:</p>
+            <ul>
+                {% for headerLabel in headerLabels %}
+                    <li><code>{{ headerLabel.0.upper }}</code> : {{ headerLabel.1 }} </li>
+                {% endfor %}
+
+            </ul>
+            </div>
+
+            <p class="docSubSections">Example of a header:</p>
+            <p> <code> &gt; ATGTG - 53|AAAAA-61|RESTRICTION - 1|RESTRICTION - 2</code></p>
+            <p>There are 4 <code>DESCRIPTOR</code>s.</p>
+            <ul>
+                <li><code>ATGTG - 53</code> is the motif starting at position 54 in the background
+                sequence.</li>
+                <li><code>AAAAA - 61</code> is the motif starting at position 61 in the background sequence.</li>
+            <li><code>RESTRICTION - 1</code> signifies the presence of the restriction site 1 in the final sequence.</li>
+                <li><code>RESTRICTION - 2</code> signifies the presence of the restriction site 2 in the final sequence.</li>
+                </ul>
+            This sequence neither has a barcode nor any adapter sites. There are also no spurious presence of
+        any restriction site.
+
+        <h3 class="docSections">Transmutation query page</h3>
+
+This page includes two options:
+            <ul>
+                <li>Mutate random positions in the input sequence.</li>
+
+                 <li>Scrambling sequences.</li>
+            </ul>
+
+
+
+        <p>The input will accept all nucleic acid IUPAC letters.</p>
+        <h3 class="docSections">Transmutation result page</h3>
+        Scrambled or/and mutated sequences in FASTA format.
+            <p class="docSubSections">Example of a header:</p>
+            <p> <code> &gt; sequence2|Mutated_nucleotides - 3|Scrambled - No</code></p>
+            <p>There are 3 <code>DESCRIPTOR</code>s.</p>
+            <ul>
+                <li><code> sequence2</code> This is the header of the sequence</li>
+
+                 <li><code>Mutated_nucleotides - 3</code> This is the number of randomly chosen mutated nucleotides.
+                <li><code>Scrambled - No</code> Denotes whether the sequence was scrambled. </li>
+            </ul>
+
+    </div>
+    <div class="col-md-1"></div>
+
+</div>
+{% endblock %}

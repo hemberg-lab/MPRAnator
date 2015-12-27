@@ -1,0 +1,189 @@
+{% extends "iliasApp/base.html" %}
+
+{% block Title %} MPRA (SNPs) {% endblock %}
+
+
+{% block head %}
+
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+  <style>
+
+
+#origin img, #drop img {
+  margin-top: 3px;
+  margin-left: 5px;
+}
+
+#drop {
+  background-color: black;
+  min-height: 50px;
+    border-style: solid;
+}
+.over {
+  border: solid 5px purple;
+}
+.draggable
+{
+  border: solid 2px gray;
+}
+    form *{
+        font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+    }
+    td{
+        text-align: center;
+        ;
+    }
+
+  #sortable { list-style-type: none;}
+
+  .dragcontainer{
+      border-style: solid;
+      padding:10px;
+      padding-left: 0px;
+      margin: 10px;
+  }
+
+
+</style>
+
+{% endblock %}
+
+
+
+
+
+
+{% block content %}
+    {% load crispy_forms_tags %}
+
+<h2>MPRA SNPs Library Construction</h2>
+
+    {% if error %}
+        <h1 class="error">{{ error }}</h1>
+    {% endif %}
+    <form id="mpraForm" action="{% url 'iliasApp:ViewMpraSnpResults' %}" method="post" enctype="multipart/form-data">
+    <a id="loadData_id" class="btn btn-danger">Load Sample Data </a>
+{% csrf_token %}
+
+{{ part1form|crispy }}
+
+        <br>
+        Restriction site 1: <input type="text" name="restriction1" placeholder="Optional"><br>
+        Restriction site 2: <input type="text" name="restriction2" placeholder="Optional"><br>
+        <br>
+        Adapter site 1:<input type="text" name="adapter1" placeholder="Optional"><br>
+        Adapter site 2:<input type="text" name="adapter2" placeholder="Optional"><br>
+
+
+        <h5>Now Pick your ordering of the different sequences</h5>
+<div class="dragcontainer">
+<ul id="sortable">
+  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Barcode</li>
+  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Background</li>
+</ul>
+</div>
+
+
+    <br><input type='submit' class="btn btn-primary" id="submitButton" value="Submit!">
+    </form>
+    <p id="printOut"></p>
+
+
+
+
+    <script>
+
+
+     $(function() {
+              $( document ).tooltip( {position: { my: "left+15 center", at: "right center" }});
+         })
+
+    var submitButton =document.getElementById("submitButton")
+    var mpraForm = document.getElementById("mpraForm")
+    $("#mpraForm").submit(function(e){
+        //e.preventDefault()
+        var dragItems = document.getElementsByClassName("ui-state-default")
+        var order = ""
+        $(".ui-state-default").each(function(index){
+            order += $(this).text()+","
+        })
+        $("#mpraForm").append("<input type='hidden' value='"+order+"' name='ordering'>")
+    })
+
+
+    var sortable = document.getElementById("sortable");
+
+    {% for box in boxes %}
+        {% for foo in "xx" %}
+
+            var {{ box }}{{ forloop.counter }}added = false;
+             $("input[name='{{ box }}{{ forloop.counter }}']").keyup(function(e){
+                var event = e.target
+
+                console.log("This is the event checked " + event.checked)
+
+                if ($(this).val() !== "" && !{{ box }}{{ forloop.counter }}added) {
+                    {{ box }}{{ forloop.counter }}added= true;
+                    console.log($(this).html());
+                    $("#sortable").append('<li id="{{ box }}{{ forloop.counter }}" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ box }} site {{ forloop.counter }}</li>')
+                }else if ($(this).val() === "") {
+                    $("#{{ box }}{{ forloop.counter }}").remove()
+                    {{ box }}{{ forloop.counter }}added= false;
+                }
+
+            })
+            // This section is to allow the checking if there is initial value present in the boxes
+            var currentSelection = $("input[name='{{ box }}{{ forloop.counter }}']")
+            if ($(currentSelection).val() !== "" && !{{ box }}{{ forloop.counter }}added) {
+                {{ box }}{{ forloop.counter }}added= true;
+                console.log($(currentSelection).html());
+                $("#sortable").append('<li id="{{ box }}{{ forloop.counter }}" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{ box }} site {{ forloop.counter }}</li>')
+            }else if ($(currentSelection).val() === "") {
+                $("#{{ box }}{{ forloop.counter }}").remove()
+                {{ box }}{{ forloop.counter }}added= false;
+            }
+
+        {% endfor %}
+    {% endfor %}
+
+
+
+  $(function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  });
+
+
+    $("#loadData_id").click(function(){
+        console.log("ere")
+
+    var seq = ">sequence1chr1:42990-43041,testest\nACAGATTAGTCAGTACGGCTAGCTAGCTACGTCTATATTATAGCGATACGGG"
+        $("#id_sequenceS").val(seq)
+
+    var snps = "1\t 42991\trs43434\t T\t G\n1\t43030\trs121212\tA\tG\n"
+        $("#id_SnpS").val(snps)
+
+
+
+        var id_barCodeLength = 12
+        $("#id_barCodeLength").val(id_barCodeLength)
+
+        var id_minimumGCContent = 20
+        $("#id_minimumGCContent").val(id_minimumGCContent)
+
+        var id_maximumGCContent = 80
+        $("#id_maximumGCContent").val(id_maximumGCContent)
+
+        var id_barCodeDistance = 2
+        $("#id_barCodeDistance").val(id_barCodeDistance)
+
+        var id_numOfBarCodesPerSequence = 4
+        $("#id_numOfBarCodesPerSequence").val(id_numOfBarCodesPerSequence)
+    })
+    </script>
+
+
+{% endblock %}
+

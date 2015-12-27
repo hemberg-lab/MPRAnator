@@ -1,0 +1,71 @@
+{% extends "iliasApp/base.html" %}
+
+{% block Title %}
+Home
+{% endblock %}
+
+{% block head %}
+{#    <link rel="stylesheet" href="http://getbootstrap.com/examples/sticky-footer/sticky-footer.css" >#}
+<style>
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+    padding: 15px;
+}
+
+form{
+    display:none
+}
+</style>
+{% endblock %}
+{% block content %}
+
+
+
+{#    <p>Please cite us:</p>#}
+{#    <h1>Georgakopoulos-Soares I., Jain N. (2015). MPRA library construction and motif analysis. Bioinformatics </h1>#}
+<h2>We have {{ itemsToShowL|length }} tools:</h2>
+        {% for itemToShow in itemsToShowL %}
+            <p><h4><a href="{{ itemToShow.1 }}"> {{ itemToShow.0 }}</a></h4> {{ itemToShow.2 }} </p>
+        {% endfor %}
+
+
+    <h4>API scripts</h4>
+    <p>Click <a id="downloadMPRAMotifsScript">here</a> for a Python script for programmatically querying MPRA motifs.</p>
+    <p>Click <a id="downloadMPRASNPsScript">here</a> for a Python script for programmatically querying MPRA SNPs.</p>
+
+     <footer class="footer">
+          <p class="text-muted">Contact: Naman Jain (nj1411@imperial.ac.uk) and Ilias Georgakopoulos-Soares (igs@sanger.ac.uk)</p>
+         <p>Contact us for feature requests.</p>
+      </div>
+
+    </footer>
+
+
+    <script>
+
+    $("#downloadMPRAMotifsScript").click(function(event){
+        console.log(event)
+
+        console.log("voila");
+        $form = $('<form method="post" action="{% url 'iliasApp:ViewDownloadScript' 'MpraMotifs' %}"></form>')
+        $form.appendTo(document.body).submit()
+        //$form.submit()
+    })
+
+    $("#downloadMPRASNPsScript").click(function(event){
+        console.log(event)
+
+        console.log("voilasnpsss");
+        $form = $('<form method="post" action="{% url 'iliasApp:ViewDownloadScript' 'MpraSnps' %}"></form>')
+        $form.appendTo(document.body).submit()
+        //$form.submit()
+    })
+    </script>
+
+{% endblock %}

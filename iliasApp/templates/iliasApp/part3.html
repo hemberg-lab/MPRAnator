@@ -1,0 +1,77 @@
+{% extends "iliasApp/base.html" %}
+
+{% block Title %}
+Transmutation
+{% endblock %}
+
+{% block content %}
+<h1>Transmutation tool</h1>
+{% load crispy_forms_tags %}
+    {% if error %}
+        <h1 class="error">{{ error }}</h1>
+    {% endif %}
+
+    <form action="{%  url "iliasApp:ViewPart3Results" %}" class='uniForm' method="POST" enctype="multipart/form-data">
+    <a id="loadData_id" class="btn btn-warning">Load Sample Data </a>
+        {% csrf_token %}
+{#        <h1>Upload your sequence</h1>#}
+{#        <textarea name="sequence" rows="10" cols="50" placeholder="Enter your sequence here">&gt;test1&#13;AGATA&#13;&gt;test2&#13;GATC#}
+{#        </textarea>#}
+{##}
+{#        <h3>Or upload a file</h3>#}
+{#        <div class="row">#}
+{#        <div class="col-md-4"></div>#}
+{#        <div class="col-md-4"><input name="sequencefile" type="file"><br></div>#}
+{#        <div class="col-md-4"></div>#}
+{#        </div>#}
+        <table class="table">
+        {{ form.as_table }}
+        </table>
+
+{#        <input type='hidden' value='No' name='mutate'>#}
+{#        Mutate  <input type="checkbox" id="mutate" name="mutate" value="Yes">#}
+{##}
+{#        <div id="numberToMutate">#}
+{#            Number of positions to mutate: <input type="number" name="numberToMutate">#}
+{#        </div>#}
+{##}
+{#        <input type='hidden' value='No' name='scramble'>#}
+{#        Scramble  <input type="checkbox" name="scramble" value="Yes">#}
+
+        <br><br>
+        <input id="submitButton" class="btn btn-primary" type="submit" value="Submit !">
+
+
+    </form>
+
+    <script>
+
+
+    $("#loadData_id").click(function() {
+        console.log("ere")
+
+        var seq = ">sequence1\nAGAGAAGGACATATTCGATCGGATCGAT\n>sequence2\nAGAGACCCATAGAACACA"
+        $("#id_sequenceS").val(seq)
+        var id_numToMutate = 3
+        $("#id_numToMutate").val(id_numToMutate)
+
+    })
+{#    var mutateE = document.getElementById("mutate")#}
+{#    var numberToMutate = document.getElementById("id_numToMutate")#}
+{#    numberToMutate.style.visibility = "hidden"#}
+{#    mutateE.onchange = function(e){#}
+{#        var event = e.target#}
+{#        console.log("thsi is the event checked "+event.checked)#}
+{#        var numberToMutate = document.getElementById("numberToMutate")#}
+{#        if (event.checked){#}
+{#            console.log("now showing.....")#}
+{#            numberToMutate.style.visibility=''#}
+{#        }else{#}
+{#            console.log("now hiding.....")#}
+{#            numberToMutate.style.visibility= 'hidden';#}
+{#        }#}
+{#    }#}
+
+
+    </script>
+{% endblock %}

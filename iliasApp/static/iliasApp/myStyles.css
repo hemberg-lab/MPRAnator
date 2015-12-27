@@ -1,0 +1,79 @@
+
+body{
+    background-color: white;
+    #background-image: url("http://www.planwallpaper.com/static/images/Alien_Ink_2560X1600_Abstract_Background_1.jpg");
+    text-align:center;
+    padding-top: 65px;
+    margin: auto;
+
+}
+
+form{
+    background-color:aliceblue;
+    border: groove ;
+    border-width: 5px;
+    padding: 40px;
+    width: 50%;
+    margin:auto;
+    border-radius:10px;
+
+}
+
+th{
+    text-align: center;
+}
+
+.error{
+    color:red;
+}
+
+
+.blabla{
+
+    margin: 30px;
+}
+  #loadData_id{
+      margin-bottom:30px;
+  }
+  .downloadForm{
+      border-style: none;
+  }
+
+  .img_class {
+      margin-top:30px;
+      margin-bottom:30px;
+      padding: 10px;
+  }
+
+textarea, input { outline: none; }
+
+
+form textarea{
+    display:block;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    padding: 8px;
+    margin-bottom: 30px;
+    width: 100%;
+
+}
+
+form textarea:focus{
+    border: 2px solid green;
+}
+
+form input:focus{
+    border: 2px solid green;
+}
+form input{
+    padding: 5px;
+    margin: 5px;
+    border-radius:10px;
+    text-align:center;
+}
+
+
+/*form input{*/
+        /*z-index: 1;*/
+
+/*}*/

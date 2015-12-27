@@ -1,0 +1,31 @@
+{% extends "iliasApp/base.html" %}
+
+{% block content %}
+
+
+{#<p>You inputted, {{ backgroundSequence }}</p>#}
+{#    <p>the motif you inputted is , {{ motif }}</p>#}
+{#    <p>the all Combinations you inputted is , {{ allCombinations}}</p>#}
+{#    #}
+{#    <p>Final output is </p>#}
+{#    {% for foo in finalOutput %}#}
+{#    <p>{{ foo.header }}</p>#}
+{#        <p>{{ foo.sequence }}</p>#}
+{#    {% endfor %}#}
+    <form action="{% url "iliasApp:ViewTableDownload" %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name='fileName' value="{{ fileName }}">
+        <input type="hidden" name='content' value="{{ forDownload }}">
+
+        <input class="btn btn-danger" type="submit" value="Download MPRA output as text!">
+    </form>
+
+    {% for header, sequence in sequenceHTML %}
+        <p>{{ header }}</p>
+        <p>{{ sequence| safe}}</p>
+    {% endfor %}
+
+
+
+{% endblock %}
+

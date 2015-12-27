@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head >
+
+    <title>{% block Title %}ilias website{% endblock %}</title>
+
+{% load staticfiles %}
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!--link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet"-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css" >
+    <link rel="stylesheet" href="{% static "iliasApp/myStyles.css" %}">
+
+    <link rel="shortcut icon" href="{%  static 'iliasApp/favicon.ico' %}">
+
+{% block head %}
+
+{% endblock %}
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top">
+<div class="container">
+
+        <ul class="navbar-nav nav navbar-right">
+
+            <li><a href="{% url 'iliasApp:ViewMpraSnp' %}" id="mprasButton">MPRAs (Snps) </a></li>
+            <li><a href="{% url 'iliasApp:ViewIndex' %}" id="mprasButton">MPRAs (Motifs) </a></li>
+            <li><a href="{% url 'iliasApp:ViewPart3' %}" id="transmutationButton">Transmutation tool</a></li>
+{#            <li><a href="{% url 'iliasApp:ViewPart2' %}" id="motifAnalysisButton">Motif Analysis</a></li>#}
+            <li><a href="{% url 'iliasApp:ViewDocs' %}" id="docsButton">Documentation</a></li>
+        </ul>
+        <ul class="navbar-nav nav navbar-left">
+            <li><a href="{% url 'iliasApp:ViewHome' %}">GenomeGeek</a></li>
+
+        </ul>
+
+</div>
+</div>
+
+{% block content %}
+
+{% endblock %}
+
+
+</body>
+</html>
